@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/login"
+    android:background="#fff"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="tm.tresmore.Login">
+
+    <ImageView android:layout_width="match_parent"
+        android:layout_height="70sp"
+        android:textAlignment="center"
+        android:background="#33cc99"
+        android:paddingTop="35sp"
+        android:src="@drawable/logo_white"
+        android:id="@+id/logo"
+        android:layout_above="@+id/userId" />
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="50sp"
+        android:background="#33cc99"
+        android:textColor="#fff"
+        android:textSize="15sp"
+        android:textStyle="bold"
+        android:text="Total Earned"
+        android:paddingTop="20sp"
+        android:textAlignment="center"
+        android:id="@+id/textView" />
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="70sp"
+        android:background="#33cc99"
+        android:textColor="#fff"
+        android:id="@+id/userCommission"
+        android:textSize="30sp"
+        android:text="$ 2,530.00"
+        android:paddingBottom= "10sp"
+        android:textAlignment="center"/>
+
+</LinearLayout>

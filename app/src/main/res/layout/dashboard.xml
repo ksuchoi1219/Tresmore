@@ -16,7 +16,7 @@
         <include
             android:id="@+id/action_bar"
             layout="@layout/action_bar" />
-
+        <!--Logo-->
         <ImageView android:layout_width="match_parent"
             android:layout_height="30sp"
             android:textAlignment="center"
@@ -25,6 +25,7 @@
             android:id="@+id/logo"
             android:layout_above="@+id/userId" />
 
+        <!--Total Earned-->
         <TextView
             android:layout_width="match_parent"
             android:layout_height="45sp"
@@ -37,6 +38,7 @@
             android:textAlignment="center"
             android:id="@+id/textView" />
 
+        <!--User Total Earned-->
         <TextView
             android:layout_width="match_parent"
             android:layout_height="55sp"
@@ -48,48 +50,51 @@
             android:paddingBottom= "5sp"
             android:textAlignment="center"/>
 
-    <LinearLayout
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:background="#eeeeee"
-        android:orientation="horizontal" >
-
+        <!--Commission Text-->
         <LinearLayout
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="15sp"
-            android:layout_marginLeft="5sp"
-            android:layout_marginRight="5sp"
+            android:background="#eeeeee"
             android:orientation="horizontal" >
-            <TextView
-                android:layout_width="0dp"
-                android:layout_weight="1"
+
+            <LinearLayout
+                android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
-                android:text="Member Commission"
-                android:textAlignment="center"
-                android:layout_gravity="left"
-                android:paddingTop="15sp"
-                android:paddingBottom="15sp"
-                android:paddingLeft="5sp"
-                android:paddingRight="5sp"
-                android:textColor="#33cc99"
-                android:background="#fff"/>
-            <View
-                android:layout_width="2dp"
-                android:layout_height="fill_parent"
-                android:background="#eeeeee" />
-            <TextView
-                android:layout_width="0dp"
-                android:layout_weight="1"
-                android:layout_height="wrap_content"
-                android:text="Receipt Rebate"
-                android:textAlignment="center"
-                android:layout_gravity="right"
-                android:padding="15sp"
-                android:textColor="#33cc99"
-                android:background="#fff"/>
+                android:layout_marginTop="15sp"
+                android:layout_marginLeft="5sp"
+                android:layout_marginRight="5sp"
+                android:orientation="horizontal" >
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:layout_height="wrap_content"
+                    android:text="Member Commission"
+                    android:textAlignment="center"
+                    android:layout_gravity="left"
+                    android:paddingTop="15sp"
+                    android:paddingBottom="15sp"
+                    android:paddingLeft="5sp"
+                    android:paddingRight="5sp"
+                    android:textColor="#33cc99"
+                    android:background="#fff"/>
+                <View
+                    android:layout_width="2dp"
+                    android:layout_height="fill_parent"
+                    android:background="#eeeeee" />
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:layout_height="wrap_content"
+                    android:text="Receipt Rebate"
+                    android:textAlignment="center"
+                    android:layout_gravity="right"
+                    android:padding="15sp"
+                    android:textColor="#33cc99"
+                    android:background="#fff"/>
+            </LinearLayout>
         </LinearLayout>
-    </LinearLayout>
+
+        <!--User Commission-->
         <LinearLayout
             android:layout_marginTop="-15sp"
             android:paddingBottom="10dp"
@@ -132,18 +137,22 @@
                     android:background="#fff"/>
             </LinearLayout>
         </LinearLayout>
-    <LinearLayout
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="20dp"
-        android:layout_gravity="center">
 
-        <Button android:layout_height="60dp"
-            android:layout_width="60dp"
-            android:textAlignment="center"
-            android:id="@+id/submitReceipteButton"
-            android:background="@drawable/receipt"/>
-    </LinearLayout>
+        <!--Receipt Button-->
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:layout_gravity="center">
+
+            <Button android:layout_height="60dp"
+                android:layout_width="60dp"
+                android:textAlignment="center"
+                android:id="@+id/submitReceipteButton"
+                android:background="@drawable/receipt"/>
+        </LinearLayout>
+
+        <!--Receipt Text-->
         <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -157,18 +166,22 @@
                 android:text="Submit a \nReceipt"
                 android:textColor="#33cc99"/>
         </LinearLayout>
-    <LinearLayout
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="10dp"
-        android:layout_gravity="center">
 
-        <Button android:layout_height="60dp"
-            android:layout_width="60dp"
-            android:textAlignment="center"
-            android:id="@+id/eCodeButton"
-            android:background="@drawable/ecode"/>
-    </LinearLayout>
+        <!--TresPass Button-->
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:layout_gravity="center">
+
+            <Button android:layout_height="60dp"
+                android:layout_width="60dp"
+                android:textAlignment="center"
+                android:id="@+id/eCodeButton"
+                android:background="@drawable/ecode"/>
+        </LinearLayout>
+
+        <!--Trespass Text-->
         <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -182,6 +195,7 @@
                 android:text="TresPass"
                 android:textColor="#33cc99"/>
         </LinearLayout>
+
     </LinearLayout>
     <fragment
         android:id="@+id/fragment_navigation_drawer"

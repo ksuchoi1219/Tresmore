@@ -8,7 +8,7 @@ import android.support.v7.widget.Toolbar;
 import android.view.View;
 
 
-public class Dashboard extends AppCompatActivity {
+public class Store extends AppCompatActivity {
     public static DrawerLayout mDrawerLayout;
     private Toolbar mToolbar;
 

@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/login"
+    android:id="@+id/dashboard"
     android:background="#fff"
     android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="tm.tresmore.Login">
-
+    tools:context="tm.tresmore.Dashboard">
+  
     <ImageView android:layout_width="match_parent"
         android:layout_height="70sp"
         android:textAlignment="center"

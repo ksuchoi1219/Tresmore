@@ -1,3 +1,5 @@
 <resources>
     <string name="app_name">Tresmore</string>
+    <string name="drawer_open">Drawer Opened</string>
+    <string name="drawer_close">Drawer Closed</string>
 </resources>

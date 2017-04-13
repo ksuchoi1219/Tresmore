@@ -1,24 +1,25 @@
 package tm.tresmore;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
+import android.widget.LinearLayout;
+import android.widget.ScrollView;
 
 
 public class Dashboard extends AppCompatActivity {
     public static DrawerLayout mDrawerLayout;
-    private Toolbar mToolbar;
-
     private ActionBarDrawerToggle mDrawerToggle;
+    private Toolbar mToolbar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.dashboard);
-
         mToolbar = (Toolbar) findViewById(R.id.action_bar);
         setSupportActionBar(mToolbar);
         getSupportActionBar().setDisplayShowHomeEnabled(true);
@@ -41,8 +42,27 @@ public class Dashboard extends AppCompatActivity {
                 mDrawerToggle.syncState();
             }
         });
+        navigation();
+    }
+    public void navigation() {
+        // MENU -> STORE
+        LinearLayout storeLinearLayout = (LinearLayout) findViewById(R.id.menuStore);
+        storeLinearLayout.setOnClickListener(new LinearLayout.OnClickListener(){
 
+            public void onClick (View v) {
+                Intent intent = new Intent(Dashboard.this, Store.class);
+                startActivityForResult(intent, 0);
+            }
+        });
+        // MENU -> REDEEM
+        LinearLayout redeemLinearLayout = (LinearLayout) findViewById(R.id.menuRedeem);
+        redeemLinearLayout.setOnClickListener(new LinearLayout.OnClickListener(){
 
+            public void onClick (View v) {
+                Intent intent = new Intent(Dashboard.this, Redeem.class);
+                startActivityForResult(intent, 0);
+            }
+        });
     }
 //
 //        connectionClass = new ConnectionClass();

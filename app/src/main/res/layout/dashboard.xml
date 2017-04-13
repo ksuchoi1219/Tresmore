@@ -177,7 +177,7 @@
             <Button android:layout_height="60dp"
                 android:layout_width="60dp"
                 android:textAlignment="center"
-                android:id="@+id/eCodeButton"
+                android:id="@+id/trespassButton"
                 android:background="@drawable/ecode"/>
         </LinearLayout>
 

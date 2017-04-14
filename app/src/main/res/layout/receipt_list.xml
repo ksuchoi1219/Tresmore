@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#fff"
+    android:paddingTop="10sp"
+    android:paddingBottom="10sp"
+    android:descendantFocusability="blocksDescendants">
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="WalMart"
+        android:layout_marginLeft="40sp"
+        android:textColor="#000"
+        android:textSize="25sp"
+        android:id="@+id/storeName"/>
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="03/29/2017"
+        android:textColor="#666"
+        android:layout_marginLeft="40sp"
+        android:textSize="16sp"
+        android:id="@+id/userDate"
+        android:layout_below="@+id/storeName"
+        android:layout_alignParentStart="true" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="$300.00"
+        android:textColor="#000"
+        android:layout_marginLeft="190sp"
+        android:textSize="21sp"
+        android:id="@+id/userReceiptAmount"
+        android:layout_alignBottom="@+id/storeName"
+        android:layout_alignParentEnd="true"
+        android:layout_marginEnd="51dp" />
+
+
+</RelativeLayout>

@@ -2,10 +2,7 @@ package tm.tresmore;
 
 import android.content.Context;
 import android.os.Bundle;
-import android.support.v4.widget.DrawerLayout;
-import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,67 +11,67 @@ import android.widget.Button;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
+import android.app.Activity;
+import android.content.Intent;
+import android.os.Bundle;
+import android.view.View;
+import android.widget.Button;
+import android.widget.CompoundButton;
+import android.widget.TextView;
+import android.widget.Toast;
 
+import com.google.android.gms.common.api.CommonStatusCodes;
 import java.util.ArrayList;
 import java.util.List;
 
 
-public class Store extends AppCompatActivity {
+public class Upload1 extends AppCompatActivity implements View.OnClickListener {
 
     private ArrayList<String> data = new ArrayList<String>();
-    private Button addStoreButton;
+    private Button scanButton;
+    private String userStoreName;
+
+    private static final int RC_OCR_CAPTURE = 9003;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.store);
-
-        ListView lv = (ListView) findViewById(R.id.lV);
-        generateListContent();
-        lv.setAdapter(new MyListAdaper(this, R.layout.list_item, data));
+        setContentView(R.layout.upload1);
+        findViewById(R.id.scanButton).setOnClickListener(this);
+        scanButton = (Button) findViewById(R.id.scanButton);
     }
-    private void generateListContent() {
-        for(int i = 0; i < 1; i++) {
-            data.add("WalMart");
-            data.add("Shell");
-            data.add("Target");
+
+    @Override
+    public void onClick(View v) {
+        if (v.getId() == R.id.scanButton) {
+            Intent intent = new Intent(this, OcrCaptureActivity.class);
+            startActivityForResult(intent, RC_OCR_CAPTURE);
         }
     }
-    private class MyListAdaper extends ArrayAdapter<String> {
-        private int layout;
-        private List<String> mObjects;
-        private MyListAdaper(Context context, int resource, List<String> objects) {
-            super(context, resource, objects);
-            mObjects = objects;
-            layout = resource;
-        }
 
-        @Override
-        public View getView(final int position, View convertView, ViewGroup parent) {
-            ViewHolder mainViewholder = null;
-            if(convertView == null) {
-                LayoutInflater inflater = LayoutInflater.from(getContext());
-                convertView = inflater.inflate(layout, parent, false);
-                ViewHolder viewHolder = new ViewHolder();
-                viewHolder.storeName = (TextView) convertView.findViewById(R.id.storeName);
-                viewHolder.address = (TextView) convertView.findViewById(R.id.address);
-                viewHolder.button = (Button) convertView.findViewById(R.id.removeButton);
-                convertView.setTag(viewHolder);
-            }
-            mainViewholder = (ViewHolder) convertView.getTag();
-            mainViewholder.button.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    Toast.makeText(getContext(), "Button was clicked for list item " + position, Toast.LENGTH_SHORT).show();
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if(requestCode == RC_OCR_CAPTURE) {
+            if (resultCode == CommonStatusCodes.SUCCESS) {
+                if (data != null) {
+                    String text = data.getStringExtra(OcrCaptureActivity.TextBlockObject);
+                    userStoreName = text;
+                    Intent intent = new Intent(getApplicationContext(), Confirm.class);
+                    intent.putExtra("userTextStoreName", userStoreName);
+//                    Toast.makeText(this, userStoreName, Toast.LENGTH_SHORT).show();
+
+                    Intent intent2 = new Intent(getApplicationContext(), Upload2.class);
+                    startActivity(intent2);
+                } else {
+                    Toast.makeText(getBaseContext(), "Text is not recognized.",  Toast.LENGTH_SHORT).show();
                 }
-            });
-            mainViewholder.storeName.setText(getItem(position));
-            return convertView;
+            } else {
+                Toast.makeText(getBaseContext(), "OCR is not working properly.",  Toast.LENGTH_SHORT).show();
+            }
         }
-    }
-    public class ViewHolder {
-        TextView storeName;
-        TextView address;
-        Button button;
+        else {
+            super.onActivityResult(requestCode, resultCode, data);
+        }
     }
 //
 //        connectionClass = new ConnectionClass();

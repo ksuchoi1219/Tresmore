@@ -1,5 +1,6 @@
 package tm.tresmore;
 
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.widget.DrawerLayout;
@@ -7,6 +8,7 @@ import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
+import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.ScrollView;
 
@@ -15,6 +17,9 @@ public class Dashboard extends AppCompatActivity {
     public static DrawerLayout mDrawerLayout;
     private ActionBarDrawerToggle mDrawerToggle;
     private Toolbar mToolbar;
+
+    private Button submitReceiptButton;
+    private Button trespassButton;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -43,6 +48,9 @@ public class Dashboard extends AppCompatActivity {
             }
         });
         navigation();
+
+        addListenerOnButton();
+
     }
     public void navigation() {
         // MENU -> STORE
@@ -61,6 +69,43 @@ public class Dashboard extends AppCompatActivity {
             public void onClick (View v) {
                 Intent intent = new Intent(Dashboard.this, Redeem.class);
                 startActivityForResult(intent, 0);
+            }
+        });
+        // MENU -> RECEIPTS
+        LinearLayout receiptsLinearLayout = (LinearLayout) findViewById(R.id.menuReceipts);
+        receiptsLinearLayout.setOnClickListener(new LinearLayout.OnClickListener(){
+
+            public void onClick (View v) {
+                Intent intent = new Intent(Dashboard.this, Receipt.class);
+                startActivityForResult(intent, 0);
+            }
+        });
+        // MENU -> AFFLIATE
+        LinearLayout affliateLinearLayout = (LinearLayout) findViewById(R.id.menuAffliate);
+        affliateLinearLayout.setOnClickListener(new LinearLayout.OnClickListener(){
+
+            public void onClick (View v) {
+                Intent intent = new Intent(Dashboard.this, Affliate.class);
+                startActivityForResult(intent, 0);
+            }
+        });
+    }
+    private void addListenerOnButton() {
+        final Context context = this;
+        submitReceiptButton = (Button) findViewById(R.id.submitReceipteButton);
+        submitReceiptButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(context, Receipt.class);
+                startActivity(intent);
+            }
+        });
+        trespassButton = (Button) findViewById(R.id.trespassButton);
+        trespassButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(context, Receipt.class);
+                startActivity(intent);
             }
         });
     }

@@ -42,7 +42,6 @@ public class Title extends AppCompatActivity {
                 startActivity(intent);
             }
         });
-
     }
     @Override
     protected void onPause() {

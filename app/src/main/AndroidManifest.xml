@@ -28,6 +28,13 @@
         <activity android:name="tm.tresmore.Dashboard"></activity>
         <activity android:name="tm.tresmore.Store"></activity>
         <activity android:name="tm.tresmore.Redeem"></activity>
+        <activity android:name="tm.tresmore.Receipt"></activity>
+        <activity android:name="tm.tresmore.Affliate"></activity>
+        <activity android:name="tm.tresmore.Upload1"></activity>
+        <activity android:name="tm.tresmore.Upload2"></activity>
+        <activity android:name="tm.tresmore.Upload3"></activity>
+        <activity android:name="tm.tresmore.Confirm"></activity>
+        <activity android:name="tm.tresmore.OcrCaptureActivity"></activity>
 
 
     </application>

@@ -35,8 +35,8 @@
         android:text="Sign up"
         android:linksClickable="true"
         android:onClick="signupLink"
-        android:layout_marginBottom="94dp"
-        android:layout_marginEnd="29dp"
+        android:layout_marginBottom="87dp"
+        android:layout_marginEnd="30dp"
         android:layout_alignParentBottom="true"
         android:layout_alignParentEnd="true" />
 
@@ -51,8 +51,7 @@
         android:layout_gravity="center"
         android:id="@+id/loginButton"
         android:text="Login"
-        android:layout_marginEnd="11dp"
-        android:layout_alignBaseline="@+id/signButton"
+        android:layout_marginEnd="10dp"
         android:layout_alignBottom="@+id/signButton"
         android:layout_toStartOf="@+id/signButton" />
 </RelativeLayout>

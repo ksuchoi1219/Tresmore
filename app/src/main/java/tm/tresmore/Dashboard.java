@@ -1,6 +1,8 @@
 package tm.tresmore;
 
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.widget.DrawerLayout;
@@ -10,8 +12,6 @@ import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.widget.Button;
 import android.widget.LinearLayout;
-import android.widget.ScrollView;
-
 
 public class Dashboard extends AppCompatActivity {
     public static DrawerLayout mDrawerLayout;
@@ -89,6 +89,33 @@ public class Dashboard extends AppCompatActivity {
                 startActivityForResult(intent, 0);
             }
         });
+        // MENU -> FAQ
+        LinearLayout faqLinearLayout = (LinearLayout) findViewById(R.id.menuFAQ);
+        faqLinearLayout.setOnClickListener(new LinearLayout.OnClickListener(){
+
+            public void onClick (View v) {
+                Intent intent = new Intent(Dashboard.this, FAQ.class);
+                startActivityForResult(intent, 0);
+            }
+        });
+        // MENU -> SUPPORT
+        LinearLayout supportLinearLayout = (LinearLayout) findViewById(R.id.menuSupport);
+        supportLinearLayout.setOnClickListener(new LinearLayout.OnClickListener(){
+
+            public void onClick (View v) {
+                Intent intent = new Intent(Dashboard.this, Support.class);
+                startActivityForResult(intent, 0);
+            }
+        });
+        // MENU -> SIGN OUT
+        LinearLayout signoutLinearLayout = (LinearLayout) findViewById(R.id.menuSignout);
+        signoutLinearLayout.setOnClickListener(new LinearLayout.OnClickListener(){
+
+            public void onClick (View v) {
+                Intent intent = new Intent(Dashboard.this, Login.class);
+                startActivityForResult(intent, 0);
+            }
+        });
     }
     private void addListenerOnButton() {
         final Context context = this;
@@ -96,18 +123,48 @@ public class Dashboard extends AppCompatActivity {
         submitReceiptButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(context, Receipt.class);
-                startActivity(intent);
+                AlertDialog alertDialog = new AlertDialog.Builder(Dashboard.this).create();
+                alertDialog.setTitle("Feature");
+                alertDialog.setMessage("Coming Soon!");
+                alertDialog.setButton(AlertDialog.BUTTON_NEUTRAL, "OK",
+                        new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int which) {
+                                dialog.dismiss();
+                            }
+                        });
+                alertDialog.show();
             }
         });
+//        submitReceiptButton.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                Intent intent = new Intent(context, Receipt.class);
+//                startActivity(intent);
+//            }
+//        });
         trespassButton = (Button) findViewById(R.id.trespassButton);
         trespassButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(context, Receipt.class);
-                startActivity(intent);
+                AlertDialog alertDialog = new AlertDialog.Builder(Dashboard.this).create();
+                alertDialog.setTitle("Feature");
+                alertDialog.setMessage("Coming Soon!");
+                alertDialog.setButton(AlertDialog.BUTTON_NEUTRAL, "OK",
+                        new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int which) {
+                                dialog.dismiss();
+                            }
+                        });
+                alertDialog.show();
             }
         });
+//        trespassButton.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                Intent intent = new Intent(context, Receipt.class);
+//                startActivity(intent);
+//            }
+//        });
     }
 //
 //        connectionClass = new ConnectionClass();

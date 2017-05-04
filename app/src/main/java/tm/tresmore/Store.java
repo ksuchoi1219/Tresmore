@@ -1,11 +1,9 @@
 package tm.tresmore;
 
 import android.content.Context;
+import android.graphics.Color;
 import android.os.Bundle;
-import android.support.v4.widget.DrawerLayout;
-import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,7 +12,6 @@ import android.widget.Button;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
-
 import java.util.ArrayList;
 import java.util.List;
 
@@ -23,14 +20,34 @@ public class Store extends AppCompatActivity {
 
     private ArrayList<String> data = new ArrayList<String>();
     private Button addStoreButton;
+    private Button mapButton;
+    private Button nonMapButton;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.store);
 
         ListView lv = (ListView) findViewById(R.id.lV);
+        final Button mapButton = (Button) findViewById(R.id.mapButton);
+        final Button nonMapButton = (Button) findViewById(R.id.nonMapButton);
+        mapButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View arg0) {
+                mapButton.setBackgroundColor(Color.WHITE);
+                nonMapButton.setBackgroundColor(Color.LTGRAY);
+
+            }
+        });
+        nonMapButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View arg0) {
+                mapButton.setBackgroundColor(Color.LTGRAY);
+                nonMapButton.setBackgroundColor(Color.WHITE);
+
+            }
+        });
         generateListContent();
-        lv.setAdapter(new MyListAdaper(this, R.layout.list_item, data));
+        lv.setAdapter(new MyListAdapter(this, R.layout.list_item, data));
     }
     private void generateListContent() {
         for(int i = 0; i < 1; i++) {
@@ -39,10 +56,10 @@ public class Store extends AppCompatActivity {
             data.add("Target");
         }
     }
-    private class MyListAdaper extends ArrayAdapter<String> {
+    private class MyListAdapter extends ArrayAdapter<String> {
         private int layout;
         private List<String> mObjects;
-        private MyListAdaper(Context context, int resource, List<String> objects) {
+        private MyListAdapter(Context context, int resource, List<String> objects) {
             super(context, resource, objects);
             mObjects = objects;
             layout = resource;

@@ -30,6 +30,8 @@
         <activity android:name="tm.tresmore.Redeem"></activity>
         <activity android:name="tm.tresmore.Receipt"></activity>
         <activity android:name="tm.tresmore.Affliate"></activity>
+        <activity android:name="tm.tresmore.FAQ"></activity>
+        <activity android:name="tm.tresmore.Support"></activity>
         <activity android:name="tm.tresmore.Upload1"></activity>
         <activity android:name="tm.tresmore.Upload2"></activity>
         <activity android:name="tm.tresmore.Upload3"></activity>
@@ -40,3 +42,6 @@
     </application>
 
 </manifest>
+<!--ejhejh1205-->
+<!--TresmoreKey-->
+<!--Ejhejh1205%-->

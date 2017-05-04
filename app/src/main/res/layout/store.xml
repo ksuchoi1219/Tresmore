@@ -40,8 +40,6 @@
         <LinearLayout
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="5sp"
-            android:layout_marginRight="5sp"
             android:padding="10dp"
             android:background="#eee"
             android:orientation="horizontal" >
@@ -49,7 +47,7 @@
                 android:layout_width="0dp"
                 android:layout_weight="1"
                 android:layout_height="40dp"
-                android:id="@+id/userMemberCommission"
+                android:id="@+id/mapButton"
                 android:text="Map Stores"
                 android:textAlignment="center"
                 android:layout_gravity="left"
@@ -64,7 +62,7 @@
             <Button
                 android:layout_width="0dp"
                 android:layout_weight="1"
-                android:id="@+id/userReceiptRebate"
+                android:id="@+id/nonMapButton"
                 android:layout_height="40dp"
                 android:text="Non-map stores"
                 android:textStyle="bold"
@@ -72,7 +70,7 @@
                 android:layout_gravity="right"
                 android:textSize="11dp"
                 android:textColor="#666"
-                android:background="#fff"/>
+                android:background="#d3d3d3"/>
         </LinearLayout>
         <LinearLayout
             android:layout_width="match_parent"

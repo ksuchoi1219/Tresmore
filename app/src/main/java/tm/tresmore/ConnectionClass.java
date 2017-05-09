@@ -14,13 +14,21 @@ import java.sql.SQLException;
 
 public class ConnectionClass {
     //String ip = "thanksmatrix.com";
-    String ip = "192.168.1.2";
+    String ip = "192.168.1.3";
+    //String ip = "smb://TMDEV";
+
     String classs = "net.sourceforge.jtds.jdbc.Driver";
-    String db = "Tresmore";
+
+    //String db = "Tresmore";
+    String db = "tresDB";
+
     //String un = "TMatrix";
-    String un = "steve1";
+    //String un = "steve1";
+    String un = "steve";
+
     //String password = "TxDlwel&G&x&D7l7G7w*T*YlDelqSlzhsM";
     String password = "1234okok";
+
     @SuppressLint("NewApi")
     public Connection CONN() {
         StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder()

@@ -4,6 +4,7 @@ import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
@@ -12,20 +13,32 @@ import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.widget.Button;
 import android.widget.LinearLayout;
+import android.widget.TextView;
+
+import java.sql.Connection;
+import java.sql.ResultSet;
+import java.sql.Statement;
 
 public class Dashboard extends AppCompatActivity {
     public static DrawerLayout mDrawerLayout;
     private ActionBarDrawerToggle mDrawerToggle;
     private Toolbar mToolbar;
-
     private Button submitReceiptButton;
     private Button trespassButton;
+    private TextView userCommissionTV;
+    private TextView userMemberCommissionTV;
+
+    private String username = "";
+    private ConnectionClass connectionClass;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.dashboard);
         mToolbar = (Toolbar) findViewById(R.id.action_bar);
+        userCommissionTV = (TextView) findViewById(R.id.userCommission);
+        userMemberCommissionTV = (TextView) findViewById(R.id.userMemberCommission);
         setSupportActionBar(mToolbar);
         getSupportActionBar().setDisplayShowHomeEnabled(true);
         getSupportActionBar().setDisplayShowTitleEnabled(false);
@@ -48,8 +61,27 @@ public class Dashboard extends AppCompatActivity {
             }
         });
         navigation();
-
         addListenerOnButton();
+        SharedPreferences prefs = getSharedPreferences("MA", MODE_PRIVATE);
+        username = prefs.getString("UN", "UNKNOWN");
+
+        connectionClass = new ConnectionClass();
+        Connection con = connectionClass.CONN();
+        String query = "select commission from dbo.users where loginid='" + username + "';";
+        ResultSet rs;
+
+        try {
+            Statement stmt = con.createStatement();
+            rs = stmt.executeQuery(query);
+            while (rs.next()) {
+                userCommissionTV.setText("$ " + rs.getString(1));
+                userMemberCommissionTV.setText("$ " + rs.getString(1));
+            }
+            con.close();
+        } catch (Exception ex) {
+            ex.getMessage();
+        }
+
 
     }
     public void navigation() {

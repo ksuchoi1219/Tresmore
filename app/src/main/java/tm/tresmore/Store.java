@@ -1,6 +1,7 @@
 package tm.tresmore;
 
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
@@ -12,13 +13,21 @@ import android.widget.Button;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import java.sql.Connection;
+import java.sql.ResultSet;
+import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 
 
 public class Store extends AppCompatActivity {
 
-    private ArrayList<String> data = new ArrayList<String>();
+    private ArrayList<String> store = new ArrayList<String>();
+    private TextView storeName;
+    private TextView storeAddress;
+    private ConnectionClass connectionClass;
+    private String username = "";
     private Button addStoreButton;
     private Button mapButton;
     private Button nonMapButton;
@@ -28,6 +37,7 @@ public class Store extends AppCompatActivity {
         setContentView(R.layout.store);
 
         ListView lv = (ListView) findViewById(R.id.lV);
+        lv.setLongClickable(true);
         final Button mapButton = (Button) findViewById(R.id.mapButton);
         final Button nonMapButton = (Button) findViewById(R.id.nonMapButton);
         mapButton.setOnClickListener(new View.OnClickListener() {
@@ -47,13 +57,28 @@ public class Store extends AppCompatActivity {
             }
         });
         generateListContent();
-        lv.setAdapter(new MyListAdapter(this, R.layout.list_item, data));
+        lv.setAdapter(new MyListAdapter(this, R.layout.list_item, store));
     }
     private void generateListContent() {
-        for(int i = 0; i < 1; i++) {
-            data.add("WalMart");
-            data.add("Shell");
-            data.add("Target");
+        connectionClass = new ConnectionClass();
+
+        SharedPreferences prefs = getSharedPreferences("MA", MODE_PRIVATE);
+        username = prefs.getString("UN", "UNKNOWN");
+
+        Connection con = connectionClass.CONN();
+        String query = "select name, addr1, city, state, zipcode from dbo.home_stores where loginid='" + username + "';";
+        ResultSet rs;
+        try {
+            Statement stmt = con.createStatement();
+            rs = stmt.executeQuery(query);
+            while (rs.next()) {
+                storeName.setText(rs.getString(1));
+                storeAddress.setText(rs.getString(2) + " " + rs.getString(3) + " " + rs.getString(4) + " " + rs.getString(5));
+
+            }
+            con.close();
+        } catch (Exception ex) {
+            ex.getMessage();
         }
     }
     private class MyListAdapter extends ArrayAdapter<String> {
@@ -78,12 +103,12 @@ public class Store extends AppCompatActivity {
                 convertView.setTag(viewHolder);
             }
             mainViewholder = (ViewHolder) convertView.getTag();
-            mainViewholder.button.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    Toast.makeText(getContext(), "Button was clicked for list item " + position, Toast.LENGTH_SHORT).show();
-                }
-            });
+//            mainViewholder.button.setOnClickListener(new View.OnClickListener() {
+//                @Override
+//                public void onClick(View v) {
+//                    Toast.makeText(getContext(), "Button was clicked for list item " + position, Toast.LENGTH_SHORT).show();
+//                }
+//            });
             mainViewholder.storeName.setText(getItem(position));
             return convertView;
         }

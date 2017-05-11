@@ -1,0 +1,164 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.v4.widget.DrawerLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/drawer_layout"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:id="@+id/dashboard"
+        android:background="#fff"
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        tools:context="tm.tresmore.Dashboard">
+        <include
+            android:id="@+id/action_bar"
+            layout="@layout/action_bar" />
+        <!--Logo-->
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:layout_marginTop="-15sp"
+            android:textSize="25sp"
+            android:text="Add Stores"
+            android:textStyle="bold"
+            android:background="#33cc99"
+            android:textColor="#fff"
+            android:textAlignment="center"/>
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="25dp"
+            android:textSize="14sp"
+            android:text="3 of 20 maximum stores saved"
+            android:textStyle="bold"
+            android:id="@+id/userNumStores"
+            android:textColor="#666"
+            android:background="#eee"
+            android:paddingTop="7dp"
+            android:textAlignment="center"/>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
+            android:layout_marginTop="15dp"
+            android:weightSum="1">
+            <EditText
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:textColorHint="#666"
+                android:hint="Name"
+                android:id="@+id/userStoreName"
+                android:background="@drawable/bordertextbox"
+                android:inputType="textCapSentences"
+                android:padding="15dp"/>
+        </LinearLayout>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginTop="15dp"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
+            android:weightSum="1">
+            <EditText
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:textColorHint="#666"
+                android:hint="Address"
+                android:id="@+id/userStoreAddress"
+                android:inputType="textCapSentences"
+                android:background="@drawable/bordertextbox"
+                android:padding="15dp"/>
+        </LinearLayout>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginTop="15dp"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
+            android:weightSum="1">
+            <EditText
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:textColorHint="#666"
+                android:hint="City"
+                android:id="@+id/userStoreCity"
+                android:inputType="textCapSentences"
+                android:background="@drawable/bordertextbox"
+                android:padding="15dp"/>
+        </LinearLayout>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginTop="15dp"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
+            android:weightSum="1">
+            <EditText
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:textColorHint="#666"
+                android:hint="State"
+                android:id="@+id/userStoreState"
+                android:inputType="textCapSentences"
+                android:background="@drawable/bordertextbox"
+                android:padding="15dp"/>
+        </LinearLayout>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginTop="15dp"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
+            android:weightSum="1">
+            <EditText
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:textColorHint="#666"
+                android:hint="Zipcode"
+                android:id="@+id/userStoreZipcode"
+                android:inputType="textCapSentences"
+                android:background="@drawable/bordertextbox"
+                android:padding="15dp"/>
+        </LinearLayout>
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginTop="20dp"
+            android:weightSum="1">
+
+            <Button android:layout_height="60dp"
+                android:layout_width="60dp"
+                android:textAlignment="center"
+                android:id="@+id/confirmButton"
+                android:background="@drawable/check" />
+            <ProgressBar
+                android:layout_width="1dp"
+                android:layout_height="1dp"
+                android:id="@+id/pbbar"
+                android:layout_marginTop="56dp"
+                android:layout_alignTop="@+id/addButton"
+                android:layout_alignEnd="@+id/textInstruction" />
+        </LinearLayout>
+
+    </LinearLayout>
+
+
+    <fragment
+        android:id="@+id/fragment_navigation_drawer"
+        android:name="tm.tresmore.FragmentNavigationDrawer"
+        android:layout_width="280dp"
+        android:layout_height="match_parent"
+        android:layout_gravity="start"
+        app:layout="@layout/fragment_navigation_drawer"
+        tools:layout="@layout/fragment_navigation_drawer" />
+</android.support.v4.widget.DrawerLayout>

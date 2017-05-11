@@ -74,8 +74,8 @@ public class Dashboard extends AppCompatActivity {
             Statement stmt = con.createStatement();
             rs = stmt.executeQuery(query);
             while (rs.next()) {
-                userCommissionTV.setText("$ " + rs.getString(1));
-                userMemberCommissionTV.setText("$ " + rs.getString(1));
+                userCommissionTV.setText("$ " + rs.getString(1) + ".00");
+                userMemberCommissionTV.setText("$ " + rs.getString(1) + ".00");
             }
             con.close();
         } catch (Exception ex) {

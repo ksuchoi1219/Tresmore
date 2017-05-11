@@ -33,6 +33,7 @@
             android:textSize="14sp"
             android:text="3 of 20 maximum stores saved"
             android:textStyle="bold"
+            android:id="@+id/userNumStores"
             android:textColor="#666"
             android:background="#eee"
             android:paddingTop="7dp"
@@ -78,6 +79,8 @@
 
             <ListView
                 android:id="@+id/lV"
+                android:layout_marginLeft="15px"
+                android:layout_marginRight="15px"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_centerHorizontal="true">

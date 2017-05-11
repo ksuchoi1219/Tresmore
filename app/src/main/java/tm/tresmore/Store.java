@@ -1,6 +1,9 @@
 package tm.tresmore;
 
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.os.Bundle;
@@ -12,8 +15,6 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ListView;
 import android.widget.TextView;
-import android.widget.Toast;
-
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.Statement;
@@ -22,10 +23,9 @@ import java.util.List;
 
 
 public class Store extends AppCompatActivity {
-
-    private ArrayList<String> store = new ArrayList<String>();
-    private TextView storeName;
-    private TextView storeAddress;
+    private ArrayList<String> names = new ArrayList<String>();
+    private TextView numStores;
+    private int intnumStores;
     private ConnectionClass connectionClass;
     private String username = "";
     private Button addStoreButton;
@@ -35,9 +35,40 @@ public class Store extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.store);
+        TextView numStores = (TextView) findViewById(R.id.userNumStores);
+        connectionClass = new ConnectionClass();
 
+        SharedPreferences prefs = getSharedPreferences("MA", MODE_PRIVATE);
+        username = prefs.getString("UN", "UNKNOWN");
+        Connection con = connectionClass.CONN();
+        String query = "select count(name) from dbo.home_stores where loginid='" + username + "';";
+        ResultSet rs;
+        try {
+            Statement stmt = con.createStatement();
+            rs = stmt.executeQuery(query);
+            while (rs.next()) {
+                numStores.setText(rs.getString(1) + " out of 10 maximum stores saved");
+                intnumStores = Integer.parseInt(rs.getString(1));
+
+            }
+            con.close();
+        } catch (Exception ex) {
+            ex.getMessage();
+        }
+        Connection con1 = connectionClass.CONN();
+        String query1 = "select name from dbo.home_stores where loginid='" + username + "';";
+        ResultSet rs1;
+        try {
+            Statement stmt = con1.createStatement();
+            rs1 = stmt.executeQuery(query1);
+            while (rs1.next()) {
+                names.add(rs1.getString(1));
+            }
+            con.close();
+        } catch (Exception ex) {
+            ex.getMessage();
+        }
         ListView lv = (ListView) findViewById(R.id.lV);
-        lv.setLongClickable(true);
         final Button mapButton = (Button) findViewById(R.id.mapButton);
         final Button nonMapButton = (Button) findViewById(R.id.nonMapButton);
         mapButton.setOnClickListener(new View.OnClickListener() {
@@ -56,30 +87,20 @@ public class Store extends AppCompatActivity {
 
             }
         });
-        generateListContent();
-        lv.setAdapter(new MyListAdapter(this, R.layout.list_item, store));
+        lv.setAdapter(new MyListAdapter(this, R.layout.list_item, names));
+        addListenerOnButton();
+
     }
-    private void generateListContent() {
-        connectionClass = new ConnectionClass();
-
-        SharedPreferences prefs = getSharedPreferences("MA", MODE_PRIVATE);
-        username = prefs.getString("UN", "UNKNOWN");
-
-        Connection con = connectionClass.CONN();
-        String query = "select name, addr1, city, state, zipcode from dbo.home_stores where loginid='" + username + "';";
-        ResultSet rs;
-        try {
-            Statement stmt = con.createStatement();
-            rs = stmt.executeQuery(query);
-            while (rs.next()) {
-                storeName.setText(rs.getString(1));
-                storeAddress.setText(rs.getString(2) + " " + rs.getString(3) + " " + rs.getString(4) + " " + rs.getString(5));
-
+    private void addListenerOnButton() {
+        final Context context = this;
+        Button addButton = (Button) findViewById(R.id.addStoreButton);
+        addButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(context, Add.class);
+                startActivity(intent);
             }
-            con.close();
-        } catch (Exception ex) {
-            ex.getMessage();
-        }
+        });
     }
     private class MyListAdapter extends ArrayAdapter<String> {
         private int layout;
@@ -93,103 +114,61 @@ public class Store extends AppCompatActivity {
         @Override
         public View getView(final int position, View convertView, ViewGroup parent) {
             ViewHolder mainViewholder = null;
+
             if(convertView == null) {
                 LayoutInflater inflater = LayoutInflater.from(getContext());
                 convertView = inflater.inflate(layout, parent, false);
                 ViewHolder viewHolder = new ViewHolder();
+
                 viewHolder.storeName = (TextView) convertView.findViewById(R.id.storeName);
-                viewHolder.address = (TextView) convertView.findViewById(R.id.address);
                 viewHolder.button = (Button) convertView.findViewById(R.id.removeButton);
+
                 convertView.setTag(viewHolder);
             }
             mainViewholder = (ViewHolder) convertView.getTag();
-//            mainViewholder.button.setOnClickListener(new View.OnClickListener() {
-//                @Override
-//                public void onClick(View v) {
-//                    Toast.makeText(getContext(), "Button was clicked for list item " + position, Toast.LENGTH_SHORT).show();
-//                }
-//            });
+            final ViewHolder finalMainViewholder = mainViewholder;
+            mainViewholder.button.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    final String deleteStoreName = finalMainViewholder.storeName.getText().toString();
+
+                    AlertDialog alertDialog = new AlertDialog.Builder(Store.this).create();
+                    alertDialog.setTitle(deleteStoreName);
+                    alertDialog.setMessage("Are you sure to delete this store?");
+                    alertDialog.setButton(AlertDialog.BUTTON_NEUTRAL, "OK",
+                            new DialogInterface.OnClickListener() {
+                                public void onClick(DialogInterface dialog, int which) {
+                                    dialog.dismiss();
+                                    startActivity(new Intent(Store.this, Store.class));
+                                    SharedPreferences prefs = getSharedPreferences("MA", MODE_PRIVATE);
+                                    username = prefs.getString("UN", "UNKNOWN");
+                                    Connection con = connectionClass.CONN();
+                                    String query = "delete from dbo.home_stores where name = '" + deleteStoreName + "' and loginid = '" + username + "';";
+                                    ResultSet rs;
+                                    try {
+                                        Statement stmt = con.createStatement();
+                                        rs = stmt.executeQuery(query);
+                                        con.close();
+                                    } catch (Exception ex) {
+                                        ex.getMessage();
+                                    }
+
+                                }
+                            });
+                    alertDialog.show();
+
+                }
+            });
+            mainViewholder = (ViewHolder) convertView.getTag();
             mainViewholder.storeName.setText(getItem(position));
+
             return convertView;
         }
     }
+
     public class ViewHolder {
         TextView storeName;
-        TextView address;
         Button button;
     }
-//
-//        connectionClass = new ConnectionClass();
-//        edtuserid = (EditText) findViewById(R.id.userId);
-//        edtpass = (EditText) findViewById(R.id.password);
-//        btnlogin = (Button) findViewById(R.id.loginButton);
-////        pbbar = (ProgressBar) findViewById(R.id.pbbar);
-////        pbbar.setVisibility(View.GONE);
-//
-//        btnlogin.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                DoLogin doLogin = new DoLogin();
-//                doLogin.execute("");
-//            }
-//        });
-//    }
-//
-//    public class DoLogin extends AsyncTask<String,String,String>
-//    {
-//        String z = "";
-//        Boolean isSuccess = false;
-//        String userid = edtuserid.getText().toString();
-//        String password = edtpass.getText().toString();
-//
-//        @Override
-//        protected void onPreExecute() {
-//            pbbar.setVisibility(View.VISIBLE);
-//        }
-//        @Override
-//        protected void onPostExecute(String r) {
-////            pbbar.setVisibility(View.GONE);
-//            Toast.makeText(Dashboard.this,r,Toast.LENGTH_SHORT).show();
-//            if(isSuccess) {
-//                SharedPreferences prefs = getSharedPreferences("MA", MODE_PRIVATE);
-//                prefs.edit().putString("UN", userid).commit();
-//                Intent i = new Intent(Dashboard.this, Dashboard.class);
-//                startActivity(i);
-//                finish();
-//            }
-//        }
-//
-//        @Override
-//        protected String doInBackground(String... params) {
-//            if(userid.trim().equals("")|| password.trim().equals(""))
-//                z = "Please enter username and password!";
-//            else {
-//                try {
-//                    Connection con = connectionClass.CONN();
-//
-//                    if (con == null) {
-//                        z = "Error in connection with SQL server!";
-//                    } else {
-//                        String query = "select loginid, password from users where loginid='" + userid + "' and password='" + password + "'";
-//                        Statement stmt = con.createStatement();
-//                        ResultSet rs = stmt.executeQuery(query);
-//
-//                        if(rs.next()) {
-//                            z = "Login Successful!";
-//                            isSuccess=true;
-//                        }
-//                        else {
-//                            z = "Invalid Credentials";
-//                            isSuccess = false;
-//                        }
-//                    }
-//                }
-//                catch (Exception ex) {
-//                    isSuccess = false;
-//                    z = ex.getMessage();
-//                }
-//            }
-//            return z;
-//        }
-//   }
-}
+
+    }

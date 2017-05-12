@@ -37,7 +37,6 @@ public class Store extends AppCompatActivity {
         setContentView(R.layout.store);
         TextView numStores = (TextView) findViewById(R.id.userNumStores);
         connectionClass = new ConnectionClass();
-
         SharedPreferences prefs = getSharedPreferences("MA", MODE_PRIVATE);
         username = prefs.getString("UN", "UNKNOWN");
         Connection con = connectionClass.CONN();

@@ -26,96 +26,111 @@
             android:background="#33cc99"
             android:textColor="#fff"
             android:textAlignment="center"/>
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Please fill out the information to confirm."
+            android:textColor="#666"
+            android:padding="7dp"
+            android:textSize="16dp"
+            android:textAlignment="center"
+            android:id="@+id/textView2" />
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="100dp">
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textColor="#888"
-                android:textSize="20sp"
-                android:textAlignment="center"
-                android:layout_marginLeft="30sp"
-                android:layout_marginTop="50dp"
-                android:text="Store Name" />
-
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginLeft="15dp"
+            android:layout_marginRight="15dp"
+            android:layout_marginTop="50dp"
+            android:weightSum="1">
             <EditText
-                android:layout_height="wrap_content"
                 android:layout_width="match_parent"
-                android:layout_marginTop="50dp"
-                android:textColor="#000"
-                android:layout_marginLeft="20sp"
-                android:id="@+id/userStoreName" />
-
+                android:layout_height="match_parent"
+                android:textColorHint="#666"
+                android:hint="Store Name"
+                android:id="@+id/userReceiptStoreName"
+                android:background="@drawable/bordertextbox"
+                android:inputType="textCapSentences"
+                android:padding="15dp"/>
         </LinearLayout>
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="50dp">
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textColor="#888"
-                android:textSize="16sp"
-                android:textAlignment="center"
-                android:layout_marginLeft="30sp"
-                android:text="Last 4 Digit of Credit Card" />
-
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginTop="15dp"
+            android:layout_marginLeft="15dp"
+            android:layout_marginRight="15dp"
+            android:weightSum="1">
             <EditText
-                android:layout_height="wrap_content"
                 android:layout_width="match_parent"
-                android:layout_marginLeft="20sp"
-                android:textColor="#000"
-                android:id="@+id/userCreditCard" />
-
+                android:layout_height="match_parent"
+                android:textColorHint="#666"
+                android:hint="Last 4 Digit of Card Used"
+                android:id="@+id/userReceiptCardNum"
+                android:maxLength="4"
+                android:inputType="textCapSentences"
+                android:background="@drawable/bordertextbox"
+                android:padding="15dp"/>
         </LinearLayout>
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="70dp">
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textColor="#888"
-                android:textSize="20sp"
-                android:textAlignment="center"
-                android:layout_marginLeft="30sp"
-                android:text="Amount ($)" />
-
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginTop="15dp"
+            android:layout_marginLeft="15dp"
+            android:layout_marginRight="15dp"
+            android:weightSum="1">
             <EditText
-                android:layout_height="wrap_content"
                 android:layout_width="match_parent"
-                android:layout_marginLeft="20sp"
-                android:textColor="#000"
-                android:id="@+id/userAmount" />
-
+                android:layout_height="match_parent"
+                android:textColorHint="#666"
+                android:hint="Amount"
+                android:id="@+id/userReceiptAmount"
+                android:inputType="textCapSentences"
+                android:background="@drawable/bordertextbox"
+                android:padding="15dp"/>
+        </LinearLayout>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginTop="15dp"
+            android:layout_marginLeft="15dp"
+            android:layout_marginRight="15dp"
+            android:weightSum="1">
+            <EditText
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:textColorHint="#666"
+                android:hint="Date purchased"
+                android:id="@+id/userReceiptUsedDate"
+                android:inputType="textCapSentences"
+                android:background="@drawable/bordertextbox"
+                android:focusable="false"
+                android:padding="15dp"/>
         </LinearLayout>
         <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
+            android:layout_marginTop="80dp"
             android:weightSum="1">
 
-            <Button android:layout_height="45dp"
-                android:layout_width="100sp"
-                android:padding="10sp"
-                android:textSize="17sp"
+            <Button android:layout_height="60dp"
+                android:layout_width="60dp"
                 android:textAlignment="center"
-                android:layout_marginTop="200sp"
-                android:id="@+id/submitButton"
-                android:text="Submit"
-                android:background="@drawable/logsignbutton" />
-        </LinearLayout>
-        <LinearLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center">
+                android:id="@+id/confirmButton"
+                android:background="@drawable/check" />
             <ProgressBar
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:id="@+id/pbbar" />
+                android:layout_width="1dp"
+                android:layout_height="1dp"
+                android:id="@+id/pbbar"
+                android:layout_marginTop="56dp"
+                android:layout_alignTop="@+id/addButton"
+                android:layout_alignEnd="@+id/textInstruction" />
+        </LinearLayout>
 
         </LinearLayout>
-    </LinearLayout>
-
 
     <fragment
         android:id="@+id/fragment_navigation_drawer"

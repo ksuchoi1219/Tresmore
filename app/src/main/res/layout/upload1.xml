@@ -31,22 +31,38 @@
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="1. Please touch the name of the store."
+            android:text="Blurry or inaccurate picture may result longer cashback process."
             android:textColor="#666"
             android:padding="7dp"
             android:textSize="16dp"
             android:textAlignment="center"
             android:id="@+id/textView2" />
+
+        <LinearLayout
+            android:layout_height="340dp"
+            android:layout_width="match_parent"
+            android:layout_marginTop="15px"
+            android:layout_marginLeft="15px"
+            android:layout_marginRight="15px">
+            <ImageView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:id="@+id/imageView"
+                android:scaleType="centerCrop"
+                android:layout_below="@+id/button"
+                />
+        </LinearLayout>
+
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="15px">
             <CheckBox
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/auto_focus"
                 android:id="@+id/auto_focus"
                 android:checked="true"
-                android:layout_marginTop="350dp"
                 android:buttonTint="#000"
                 android:textColor="#000"/>
         </LinearLayout>

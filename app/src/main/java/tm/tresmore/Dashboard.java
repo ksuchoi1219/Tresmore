@@ -152,28 +152,14 @@ public class Dashboard extends AppCompatActivity {
     private void addListenerOnButton() {
         final Context context = this;
         submitReceiptButton = (Button) findViewById(R.id.submitReceipteButton);
+
         submitReceiptButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                AlertDialog alertDialog = new AlertDialog.Builder(Dashboard.this).create();
-                alertDialog.setTitle("Feature");
-                alertDialog.setMessage("Coming Soon!");
-                alertDialog.setButton(AlertDialog.BUTTON_NEUTRAL, "OK",
-                        new DialogInterface.OnClickListener() {
-                            public void onClick(DialogInterface dialog, int which) {
-                                dialog.dismiss();
-                            }
-                        });
-                alertDialog.show();
+                Intent intent = new Intent(context, Receipt.class);
+                startActivity(intent);
             }
         });
-//        submitReceiptButton.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                Intent intent = new Intent(context, Receipt.class);
-//                startActivity(intent);
-//            }
-//        });
         trespassButton = (Button) findViewById(R.id.trespassButton);
         trespassButton.setOnClickListener(new View.OnClickListener() {
             @Override

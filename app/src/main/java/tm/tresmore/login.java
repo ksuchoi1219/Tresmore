@@ -17,10 +17,11 @@ import java.sql.ResultSet;
 import java.sql.Statement;
 
 public class Login extends AppCompatActivity {
-    private ConnectionClass connectionClass;
     private EditText edtuserid,edtpass;
     private Button btnlogin;
     private ProgressBar pbbar;
+
+    private ConnectionClass connectionClass;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -31,6 +32,7 @@ public class Login extends AppCompatActivity {
         edtuserid = (EditText) findViewById(R.id.userId);
         edtpass = (EditText) findViewById(R.id.password);
         btnlogin = (Button) findViewById(R.id.loginButton);
+
         pbbar = (ProgressBar) findViewById(R.id.pbbar);
         pbbar.setVisibility(View.GONE);
         edtpass.setTypeface(null, Typeface.BOLD);

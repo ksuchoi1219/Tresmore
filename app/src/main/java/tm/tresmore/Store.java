@@ -24,17 +24,22 @@ import java.util.List;
 
 public class Store extends AppCompatActivity {
     private ArrayList<String> names = new ArrayList<String>();
+
     private TextView numStores;
-    private int intnumStores;
-    private ConnectionClass connectionClass;
-    private String username = "";
     private Button addStoreButton;
     private Button mapButton;
     private Button nonMapButton;
+
+    private int intnumStores;
+
+    private ConnectionClass connectionClass;
+    private String username = "";
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.store);
+
         TextView numStores = (TextView) findViewById(R.id.userNumStores);
         connectionClass = new ConnectionClass();
         SharedPreferences prefs = getSharedPreferences("MA", MODE_PRIVATE);

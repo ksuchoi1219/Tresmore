@@ -1,77 +1,110 @@
 package tm.tresmore;
 
-import android.app.AlertDialog;
 import android.app.DatePickerDialog;
-import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Color;
-import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
-import android.view.animation.Animation;
-import android.view.animation.AnimationUtils;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.ProgressBar;
+import android.widget.Spinner;
 import android.widget.Toast;
-
 import java.sql.Connection;
+import java.sql.ResultSet;
 import java.sql.Statement;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
-import java.util.Locale;
 import java.util.TimeZone;
 
 public class Confirm extends AppCompatActivity implements View.OnClickListener, DatePickerDialog.OnDateSetListener{
 
-    private Button confirmButton;
-    private EditText userRStoreName;
-    private EditText userRCreditCard;
+    private Button confirmButton;;
     private EditText userRAmount;
     private EditText userRUsedDate;
+    private Spinner userStoreSpinner;
     private ProgressBar pbbar;
+
     private int _day;
     private int _month;
     private int _birthYear;
+    private String userSTcode;
+    private String userStoreSpinnerValue;
+    private ArrayList<String> data = new ArrayList<String>();
+
     private ConnectionClass connectionClass;
+    private String username = "";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.confirm);
-        connectionClass = new ConnectionClass();
 
-        userRStoreName = (EditText) findViewById(R.id.userReceiptStoreName);
-        userRCreditCard = (EditText) findViewById(R.id.userReceiptCardNum);
+        userStoreSpinner = (Spinner) findViewById(R.id.userReceiptStoreName);
         userRAmount = (EditText) findViewById(R.id.userReceiptAmount);
         userRUsedDate = (EditText) findViewById(R.id.userReceiptUsedDate);
         userRUsedDate.setOnClickListener(this);
-        userRStoreName.setTextColor(Color.BLACK);
-        userRCreditCard.setTextColor(Color.BLACK);
         userRAmount.setTextColor(Color.BLACK);
         userRUsedDate.setTextColor(Color.BLACK);
-
         confirmButton = (Button) findViewById(R.id.confirmButton);
 
+        connectionClass = new ConnectionClass();
+        SharedPreferences prefs = getSharedPreferences("MA", MODE_PRIVATE);
+        username = prefs.getString("UN", "UNKNOWN");
+        Connection con = connectionClass.CONN();
+        String query = "select name from dbo.home_stores where loginid='" + username + "';";
+        ResultSet rs;
+        try {
+            Statement stmt = con.createStatement();
+            rs = stmt.executeQuery(query);
+            while (rs.next()) {
+                data.add(rs.getString(1));
+            }
+            ArrayAdapter<String> spinnerArrayAdapter = new ArrayAdapter<String>(this,R.layout.spinner_list,data);
+            spinnerArrayAdapter.setDropDownViewResource(R.layout.spinner_list);
+            userStoreSpinner.setAdapter(spinnerArrayAdapter);
 
+            con.close();
+        } catch (Exception ex) {
+            ex.getMessage();
+        }
 
+        getSpinnerValue();
         pbbar = (ProgressBar) findViewById(R.id.pbbar);
         pbbar.setVisibility(View.GONE);
         confirmButton = (Button) findViewById(R.id.confirmButton);
         confirmButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Confirm.DoImport doLogin = new Confirm.DoImport();
+                DoImport doLogin = new DoImport();
                 doLogin.execute("");
             }
         });
 
+    }
+    public void getSpinnerValue() {
+        userStoreSpinnerValue = userStoreSpinner.getSelectedItem().toString();
+        Connection con = connectionClass.CONN();
+        String query = "select code from dbo.home_stores where loginid='" + username + "' and name = '" + userStoreSpinnerValue + "';";
+        ResultSet rs;
+        try {
+            Statement stmt = con.createStatement();
+            rs = stmt.executeQuery(query);
+            while (rs.next()) {
+                userSTcode = rs.getString(1);
+            }
+
+            con.close();
+        } catch (Exception ex) {
+            ex.getMessage();
+        }
 
     }
     @Override
@@ -92,11 +125,9 @@ public class Confirm extends AppCompatActivity implements View.OnClickListener, 
 
     }
 
-    // updates the date in the birth date EditText
     private void updateDisplay() {
 
         userRUsedDate.setText(new StringBuilder()
-                // Month is 0 based so add 1
                 .append(_month + 1).append("/").append(_day).append("/").append(_birthYear).append(" "));
     }
     public class DoImport extends AsyncTask<String,String,String>
@@ -108,8 +139,8 @@ public class Confirm extends AppCompatActivity implements View.OnClickListener, 
         SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMddHHmmss");
 
         String receiptCode = sdf.format(new Date());
-        String uRSName = userRStoreName.getText().toString();
-        String uRCnum = userRCreditCard.getText().toString();
+        String code = username + "_" + receiptCode;
+        String uRSName = userStoreSpinner.getSelectedItem().toString();
         String uRAmount = userRAmount.getText().toString();
         String uRDateUsed = userRUsedDate.getText().toString();
 
@@ -131,7 +162,7 @@ public class Confirm extends AppCompatActivity implements View.OnClickListener, 
         @Override
         protected String doInBackground(String... params) {
 
-            if(uRSName.trim().equals("") || uRCnum.trim().equals("") || uRAmount.trim().equals(""))
+            if(uRSName.trim().equals("") || uRAmount.trim().equals(""))
                 z = "Please enter all the criteria.";
             else {
                 try {
@@ -139,8 +170,8 @@ public class Confirm extends AppCompatActivity implements View.OnClickListener, 
                     if (con == null) {
                         z = "Error in connection with SQL server";
                     } else {
-                        String query = "insert into dbo.home_receipts (code, stName, amount, dtUsed, loginid)" +
-                                " values ('" + receiptCode + "', '" + uRSName + "', '" + uRAmount + "', '" + uRDateUsed + "', '" +  username + "');";
+                        String query = "insert into dbo.home_receipts (code, stCode, stName, amount, dtUsed, loginid)" +
+                                " values ('" + code + "', '" + userSTcode + "', '" + uRSName + "', '" + uRAmount + "', '" + uRDateUsed + "', '" +  username + "');";
 
                         Statement stmt = con.createStatement();
                         z = "Imported successfully!";

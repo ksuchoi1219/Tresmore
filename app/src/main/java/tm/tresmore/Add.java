@@ -1,47 +1,49 @@
 package tm.tresmore;
 
-import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
-import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.ListView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
-
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.Statement;
 import java.util.ArrayList;
-import java.util.List;
 
 
 public class Add extends AppCompatActivity {
-    private ArrayList<String> address = new ArrayList<String>();
+
     private EditText uStoreName;
     private EditText uStoreAddr;
     private EditText uStoreCity;
     private EditText uStoreState;
     private EditText uStoreZip;
+    private Button confirmButton;
     private ProgressBar pbbar;
+
+    private ArrayList<String> address = new ArrayList<String>();
 
     private ConnectionClass connectionClass;
     private String username = "";
-    private Button confirmButton;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.add);
+
         TextView numStores = (TextView) findViewById(R.id.userNumStores);
+        uStoreName = (EditText) findViewById(R.id.userStoreName);
+        uStoreAddr = (EditText) findViewById(R.id.userStoreAddress);
+        uStoreCity = (EditText) findViewById(R.id.userStoreCity);
+        uStoreState = (EditText) findViewById(R.id.userStoreState);
+        uStoreZip = (EditText) findViewById(R.id.userStoreZipcode);
 
         connectionClass = new ConnectionClass();
         SharedPreferences prefs = getSharedPreferences("MA", MODE_PRIVATE);
@@ -60,11 +62,6 @@ public class Add extends AppCompatActivity {
         } catch (Exception ex) {
             ex.getMessage();
         }
-        uStoreName = (EditText) findViewById(R.id.userStoreName);
-        uStoreAddr = (EditText) findViewById(R.id.userStoreAddress);
-        uStoreCity = (EditText) findViewById(R.id.userStoreCity);
-        uStoreState = (EditText) findViewById(R.id.userStoreState);
-        uStoreZip = (EditText) findViewById(R.id.userStoreZipcode);
 
         uStoreName.setTextColor(Color.BLACK);
         uStoreAddr.setTextColor(Color.BLACK);

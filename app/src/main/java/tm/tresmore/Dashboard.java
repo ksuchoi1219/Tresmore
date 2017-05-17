@@ -14,31 +14,34 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-
+import java.math.BigDecimal;
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.Statement;
 
 public class Dashboard extends AppCompatActivity {
+
     public static DrawerLayout mDrawerLayout;
     private ActionBarDrawerToggle mDrawerToggle;
+
     private Toolbar mToolbar;
     private Button submitReceiptButton;
     private Button trespassButton;
     private TextView userCommissionTV;
     private TextView userMemberCommissionTV;
 
-    private String username = "";
     private ConnectionClass connectionClass;
-
+    private String username = "";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.dashboard);
+
         mToolbar = (Toolbar) findViewById(R.id.action_bar);
         userCommissionTV = (TextView) findViewById(R.id.userCommission);
         userMemberCommissionTV = (TextView) findViewById(R.id.userMemberCommission);
+
         setSupportActionBar(mToolbar);
         getSupportActionBar().setDisplayShowHomeEnabled(true);
         getSupportActionBar().setDisplayShowTitleEnabled(false);
@@ -62,10 +65,10 @@ public class Dashboard extends AppCompatActivity {
         });
         navigation();
         addListenerOnButton();
-        SharedPreferences prefs = getSharedPreferences("MA", MODE_PRIVATE);
-        username = prefs.getString("UN", "UNKNOWN");
 
         connectionClass = new ConnectionClass();
+        SharedPreferences prefs = getSharedPreferences("MA", MODE_PRIVATE);
+        username = prefs.getString("UN", "UNKNOWN");
         Connection con = connectionClass.CONN();
         String query = "select commission from dbo.users where loginid='" + username + "';";
         ResultSet rs;
@@ -74,17 +77,26 @@ public class Dashboard extends AppCompatActivity {
             Statement stmt = con.createStatement();
             rs = stmt.executeQuery(query);
             while (rs.next()) {
-                userCommissionTV.setText("$ " + rs.getString(1) + ".00");
-                userMemberCommissionTV.setText("$ " + rs.getString(1) + ".00");
+                double money = Double.parseDouble(rs.getString(1));
+                String moneyForm = String.format("%.2f", new BigDecimal(money));
+                userCommissionTV.setText("$ " + moneyForm);
+                userMemberCommissionTV.setText("$ " + moneyForm);
             }
             con.close();
         } catch (Exception ex) {
             ex.getMessage();
         }
-
-
     }
     public void navigation() {
+        // MENU -> MY PAGE
+        LinearLayout mypageLinearLayout = (LinearLayout) findViewById(R.id.menuMyPage);
+        mypageLinearLayout.setOnClickListener(new LinearLayout.OnClickListener(){
+
+            public void onClick (View v) {
+                Intent intent = new Intent(Dashboard.this, Dashboard.class);
+                startActivityForResult(intent, 0);
+            }
+        });
         // MENU -> STORE
         LinearLayout storeLinearLayout = (LinearLayout) findViewById(R.id.menuStore);
         storeLinearLayout.setOnClickListener(new LinearLayout.OnClickListener(){
@@ -176,86 +188,5 @@ public class Dashboard extends AppCompatActivity {
                 alertDialog.show();
             }
         });
-//        trespassButton.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                Intent intent = new Intent(context, Receipt.class);
-//                startActivity(intent);
-//            }
-//        });
     }
-//
-//        connectionClass = new ConnectionClass();
-//        edtuserid = (EditText) findViewById(R.id.userId);
-//        edtpass = (EditText) findViewById(R.id.password);
-//        btnlogin = (Button) findViewById(R.id.loginButton);
-////        pbbar = (ProgressBar) findViewById(R.id.pbbar);
-////        pbbar.setVisibility(View.GONE);
-//
-//        btnlogin.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                DoLogin doLogin = new DoLogin();
-//                doLogin.execute("");
-//            }
-//        });
-//    }
-//
-//    public class DoLogin extends AsyncTask<String,String,String>
-//    {
-//        String z = "";
-//        Boolean isSuccess = false;
-//        String userid = edtuserid.getText().toString();
-//        String password = edtpass.getText().toString();
-//
-//        @Override
-//        protected void onPreExecute() {
-//            pbbar.setVisibility(View.VISIBLE);
-//        }
-//        @Override
-//        protected void onPostExecute(String r) {
-////            pbbar.setVisibility(View.GONE);
-//            Toast.makeText(Dashboard.this,r,Toast.LENGTH_SHORT).show();
-//            if(isSuccess) {
-//                SharedPreferences prefs = getSharedPreferences("MA", MODE_PRIVATE);
-//                prefs.edit().putString("UN", userid).commit();
-//                Intent i = new Intent(Dashboard.this, Dashboard.class);
-//                startActivity(i);
-//                finish();
-//            }
-//        }
-//
-//        @Override
-//        protected String doInBackground(String... params) {
-//            if(userid.trim().equals("")|| password.trim().equals(""))
-//                z = "Please enter username and password!";
-//            else {
-//                try {
-//                    Connection con = connectionClass.CONN();
-//
-//                    if (con == null) {
-//                        z = "Error in connection with SQL server!";
-//                    } else {
-//                        String query = "select loginid, password from users where loginid='" + userid + "' and password='" + password + "'";
-//                        Statement stmt = con.createStatement();
-//                        ResultSet rs = stmt.executeQuery(query);
-//
-//                        if(rs.next()) {
-//                            z = "Login Successful!";
-//                            isSuccess=true;
-//                        }
-//                        else {
-//                            z = "Invalid Credentials";
-//                            isSuccess = false;
-//                        }
-//                    }
-//                }
-//                catch (Exception ex) {
-//                    isSuccess = false;
-//                    z = ex.getMessage();
-//                }
-//            }
-//            return z;
-//        }
-//   }
 }

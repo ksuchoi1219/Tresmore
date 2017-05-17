@@ -1,8 +1,6 @@
 package tm.tresmore;
 
-import android.app.AlertDialog;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
@@ -14,18 +12,18 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ListView;
 import android.widget.TextView;
-
+import java.math.BigDecimal;
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.Statement;
 import java.util.ArrayList;
-import java.util.List;
 
 
 public class Receipt extends AppCompatActivity {
 
-    private ArrayList<String> receipts = new ArrayList<String>();
+    private ArrayList<Receipts> data = new ArrayList<Receipts>();
     private Button addReceiptButton;
+
     private ConnectionClass connectionClass;
     private String username = "";
 
@@ -38,21 +36,23 @@ public class Receipt extends AppCompatActivity {
         SharedPreferences prefs = getSharedPreferences("MA", MODE_PRIVATE);
         username = prefs.getString("UN", "UNKNOWN");
         Connection con = connectionClass.CONN();
-        String query = "select stName from dbo.home_receipts where loginid='" + username + "';";
+        String query = "select stName, amount, dtUsed from dbo.home_receipts where loginid='" + username + "';";
         ResultSet rs;
         try {
             Statement stmt = con.createStatement();
             rs = stmt.executeQuery(query);
             while (rs.next()) {
-                receipts.add(rs.getString(1));
+                double money = Double.parseDouble(rs.getString(2));
+                String moneyForm = String.format("%.2f", new BigDecimal(money));
+                data.add(new Receipts(rs.getString(1), moneyForm, rs.getString(3)));
             }
             con.close();
         } catch (Exception ex) {
             ex.getMessage();
         }
-        ListView lv = (ListView) findViewById(R.id.lV);
-        lv.setAdapter(new Receipt.MyListAdapter(this, R.layout.receipt_list, receipts));
 
+        ListView lv = (ListView) findViewById(R.id.lV);
+        lv.setAdapter(new MyListAdapter(Receipt.this, R.layout.receipt_list, data));
         addListenerOnButton();
 
     }
@@ -63,39 +63,48 @@ public class Receipt extends AppCompatActivity {
         addReceiptButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(context, Upload1.class);
+                Intent intent = new Intent(context, Upload.class);
                 startActivity(intent);
             }
         });
     }
-    private class MyListAdapter extends ArrayAdapter<String> {
-        private int layout;
-        private List<String> mObjects;
-        private MyListAdapter(Context context, int resource, List<String> objects) {
-            super(context, resource, objects);
-            mObjects = objects;
-            layout = resource;
+
+    public class MyListAdapter extends ArrayAdapter<Receipts> {
+        private final Context context;
+        private final ArrayList<Receipts> data;
+        private final int layoutResourceId;
+
+        public MyListAdapter(Context context, int layoutResourceId, ArrayList<Receipts> data) {
+            super(context, layoutResourceId, data);
+            this.context = context;
+            this.data = data;
+            this.layoutResourceId = layoutResourceId;
         }
 
         @Override
         public View getView(final int position, View convertView, ViewGroup parent) {
-            Receipt.ViewHolder mainViewholder = null;
+            View row = convertView;
+            ViewHolder holder = null;
+            if (row == null) {
+                LayoutInflater inflater = ((Receipt) context).getLayoutInflater();
+                row = inflater.inflate(layoutResourceId, parent, false);
 
-            if(convertView == null) {
-                LayoutInflater inflater = LayoutInflater.from(getContext());
-                convertView = inflater.inflate(layout, parent, false);
-                Receipt.ViewHolder viewHolder = new Receipt.ViewHolder();
+                holder = new ViewHolder();
+                holder.receiptStore = (TextView) row.findViewById(R.id.receiptStore);
+                holder.receiptDate = (TextView) row.findViewById(R.id.receiptDate);
+                holder.receiptAmount = (TextView) row.findViewById(R.id.receiptAmount);
 
-                viewHolder.receiptStore = (TextView) convertView.findViewById(R.id.receiptStore);
-                viewHolder.receiptDate = (TextView) convertView.findViewById(R.id.receiptDate);
-                viewHolder.receiptAmount = (TextView) convertView.findViewById(R.id.receiptAmount);
-
-                convertView.setTag(viewHolder);
+                row.setTag(holder);
+            } else {
+                holder = (ViewHolder) row.getTag();
             }
-            mainViewholder = (Receipt.ViewHolder) convertView.getTag();
-            mainViewholder.receiptStore.setText(getItem(position));
 
-            return convertView;
+            Receipts r = data.get(position);
+
+            holder.receiptStore.setText(r.getName());
+            holder.receiptAmount.setText("$ " + r.getAmount());
+            holder.receiptDate.setText(r.getDate());
+            return row;
         }
     }
 
@@ -103,6 +112,26 @@ public class Receipt extends AppCompatActivity {
         TextView receiptStore;
         TextView receiptDate;
         TextView receiptAmount;
+    }
+    public class Receipts{
+        private String name;
+        private String amount;
+        private String date;
+
+        public Receipts (String name, String amount, String date) {
+            this.name = name;
+            this.amount = amount;
+            this.date = date;
+        }
+        public String getName() {
+            return name;
+        }
+        public String getAmount() {
+            return amount;
+        }
+        public String getDate() {
+            return date;
+        }
     }
 
 }

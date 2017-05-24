@@ -122,11 +122,9 @@ public class Confirm extends AppCompatActivity implements View.OnClickListener, 
                 calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH),
                 calendar.get(Calendar.DAY_OF_MONTH));
         dialog.show();
-
     }
 
     private void updateDisplay() {
-
         userRUsedDate.setText(new StringBuilder()
                 .append(_month + 1).append("/").append(_day).append("/").append(_birthYear).append(" "));
     }

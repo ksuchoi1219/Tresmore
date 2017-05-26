@@ -115,15 +115,15 @@ public class Dashboard extends AppCompatActivity {
                 startActivityForResult(intent, 0);
             }
         });
-        // MENU -> RECEIPTS
-        LinearLayout receiptsLinearLayout = (LinearLayout) findViewById(R.id.menuReceipts);
-        receiptsLinearLayout.setOnClickListener(new LinearLayout.OnClickListener(){
-
-            public void onClick (View v) {
-                Intent intent = new Intent(Dashboard.this, Receipt.class);
-                startActivityForResult(intent, 0);
-            }
-        });
+//        // MENU -> RECEIPTS
+//        LinearLayout receiptsLinearLayout = (LinearLayout) findViewById(R.id.menuReceipts);
+//        receiptsLinearLayout.setOnClickListener(new LinearLayout.OnClickListener(){
+//
+//            public void onClick (View v) {
+//                Intent intent = new Intent(Dashboard.this, Receipt.class);
+//                startActivityForResult(intent, 0);
+//            }
+//        });
         // MENU -> AFFLIATE
         LinearLayout affliateLinearLayout = (LinearLayout) findViewById(R.id.menuAffliate);
         affliateLinearLayout.setOnClickListener(new LinearLayout.OnClickListener(){
@@ -164,14 +164,28 @@ public class Dashboard extends AppCompatActivity {
     private void addListenerOnButton() {
         final Context context = this;
         submitReceiptButton = (Button) findViewById(R.id.submitReceipteButton);
-
         submitReceiptButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(context, Receipt.class);
-                startActivity(intent);
+                AlertDialog alertDialog = new AlertDialog.Builder(Dashboard.this).create();
+                alertDialog.setTitle("Feature");
+                alertDialog.setMessage("Coming Soon!");
+                alertDialog.setButton(AlertDialog.BUTTON_NEUTRAL, "OK",
+                        new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int which) {
+                                dialog.dismiss();
+                            }
+                        });
+                alertDialog.show();
             }
         });
+//        submitReceiptButton.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                Intent intent = new Intent(context, Receipt.class);
+//                startActivity(intent);
+//            }
+//        });
         trespassButton = (Button) findViewById(R.id.trespassButton);
         trespassButton.setOnClickListener(new View.OnClickListener() {
             @Override

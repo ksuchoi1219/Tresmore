@@ -39,6 +39,7 @@ public class Store extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.store);
+        addStoreButton = (Button) findViewById(R.id.addStoreButton);
 
         TextView numStores = (TextView) findViewById(R.id.userNumStores);
         connectionClass = new ConnectionClass();
@@ -72,6 +73,7 @@ public class Store extends AppCompatActivity {
         } catch (Exception ex) {
             ex.getMessage();
         }
+
         ListView lv = (ListView) findViewById(R.id.lV);
         final Button mapButton = (Button) findViewById(R.id.mapButton);
         final Button nonMapButton = (Button) findViewById(R.id.nonMapButton);
@@ -94,17 +96,37 @@ public class Store extends AppCompatActivity {
         lv.setAdapter(new MyListAdapter(this, R.layout.list_item, names));
         addListenerOnButton();
 
+
     }
     private void addListenerOnButton() {
-        final Context context = this;
-        Button addButton = (Button) findViewById(R.id.addStoreButton);
-        addButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(context, Add.class);
-                startActivity(intent);
-            }
-        });
+        if (intnumStores < 10) {
+            final Context context = this;
+            addStoreButton.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Intent intent = new Intent(context, Add.class);
+                    startActivity(intent);
+                }
+            });
+        } else {
+
+            addStoreButton.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    AlertDialog alertDialog = new AlertDialog.Builder(Store.this).create();
+                    alertDialog.setTitle("Alert");
+                    alertDialog.setMessage("You have reached the maximum number of stores!");
+                    alertDialog.setButton(AlertDialog.BUTTON_NEUTRAL, "OK",
+                            new DialogInterface.OnClickListener() {
+                                public void onClick(DialogInterface dialog, int which) {
+                                    dialog.dismiss();
+                                }
+                            });
+                    alertDialog.show();
+                }
+            });
+        }
+
     }
     private class MyListAdapter extends ArrayAdapter<String> {
         private int layout;
@@ -143,7 +165,7 @@ public class Store extends AppCompatActivity {
                             new DialogInterface.OnClickListener() {
                                 public void onClick(DialogInterface dialog, int which) {
                                     dialog.dismiss();
-                                    startActivity(new Intent(Store.this, Store.class));
+                                    startActivity(new Intent(Store.this, Dashboard.class));
                                     SharedPreferences prefs = getSharedPreferences("MA", MODE_PRIVATE);
                                     username = prefs.getString("UN", "UNKNOWN");
                                     Connection con = connectionClass.CONN();
